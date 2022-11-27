@@ -3,6 +3,7 @@ import re
 
 
 def get_product_list(data):
+
     def filter_by_category(file):
         lst = []
         for cat in file:
@@ -38,5 +39,18 @@ def get_product_list(data):
         return {'code': 200, 'data': '\n'.join(dct)}
 
 
+
 def get_single_product(data):
-    pass
+  with open('../data/catalog.json') as product_file:
+    file_data = json.load(product_file) 
+    user_product_id = data['data']['id']
+    code = 404
+    message = "Товара с таким номером не найдено"
+    for category in file_data:
+        for product in category['products']:
+            if user_product_id == product['id']:
+                code = 200
+                message = f"{product['name']}\nЦена: {product['price']} рублей за {product['unit']}\nОстаток на складе:{product['balance']}{product['unit']}\nОписание:{product['description']}"
+    
+    return {'code': code, 'message': message}
+
