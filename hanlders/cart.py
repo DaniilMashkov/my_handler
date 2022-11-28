@@ -32,14 +32,6 @@ def put_product_to_cart(data):
             }
 
         else:
-            for category_d in catalog_data:
-                for product_d in category_d['products']:
-                    if product_d['id'] == product_id:
-                        product_d['balance'] -= product_count
-
-            with open('data/catalog.json', 'w', encoding='utf-8') as catalog_d:
-                json.dump(catalog_data, catalog_d, ensure_ascii=False)
-
             to_cart = [{
                 'id': product_id,
                 'name': product_name,
