@@ -1,39 +1,55 @@
 import json
-data = {
-    "action": 2,
-    "filter": {
-        "price": None,
-        "category": 2
-    }
-}
+import re
+
+
 def get_product_list(data):
 
-    with open('../data/catalog.json') as catalog:
-        file_data = catalog.read()
-        file = (json.loads(file_data))
-
-        f_price = data['filter']['price']
-        f_category = data['filter']['category']
-        all_goods = [x['products'] for x in file]
-
+    def filter_by_category(file):
+        lst = []
         for cat in file:
-            if cat['id'] == f_category:
-                if f_price is None:
-                    return [print(x) for x in cat['products']]
-                elif '>' or '<'  or'=' in f_price:
-                    for i in all_goods:
-                        for k in i:
-                            filter_price = (eval(str(k["price"])+str(f_price)))
-                            if filter_price: print(k)
+            if data['data']['category'] is None:
+                for prod in cat['products']:
+                    lst.append(prod)
+            if cat['id'] == data['data']['category']:
+                for prod in cat['products']:
+                    lst.append(prod)
+        return lst
 
-                else:
-                    [print(x) for x in cat['products']]
+    with open('data/catalog.json') as catalog:
+        file_data = catalog.read()
+        file = filter_by_category(json.loads(file_data))
+
+        if not file: return {'code': 500, 'data':[]}
+
+        for prod in file.copy():
+            try:
+                if re.findall(r'[><=]\d+',data['data']['price']):
+                    if not eval(str(prod["price"]) + str(data['data']['price'])):
+                        file.remove(prod)
+
+                else: return {'code': 500, 'data':[]}
+            except:
+                file
+
+        if not file: return {'code': 200, 'data': []}
+        dct = []
+        for x in file:
+            dct.append(f"{x['id']}. {x['name']} ({x['price']} руб/кг) {x['balance']}шт.")
+
+        return {'code': 200, 'data': '\n'.join(dct)}
 
 
-
-
-
-get_product_list(data)
 
 def get_single_product(data):
-    pass
+  with open('data/catalog.json') as product_file:
+    file_data = json.load(product_file) 
+    user_product_id = data['data']['id']
+    code = 404
+    message = "Товара с таким номером не найдено"
+    for category in file_data:
+        for product in category['products']:
+            if user_product_id == product['id']:
+                code = 200
+                message = f"{product['name']}\nЦена: {product['price']} рублей за {product['unit']}\nОстаток на складе:{product['balance']}{product['unit']}\nОписание:{product['description']}"
+    
+    return {'code': code, 'message': message}

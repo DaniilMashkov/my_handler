@@ -41,7 +41,7 @@ if __name__ == '__main__':
             result = main(json.loads(file_data))
 
             print(result)
-
+            break
             f = open('data/command.json', 'r+')
             f.truncate(0)
 
