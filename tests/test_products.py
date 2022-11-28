@@ -1,8 +1,8 @@
 from hanlders.products import get_product_list
 
 
-def command ():
-  return {
+
+command = {
     "action": 2,
     "data": {
         "price": None,
@@ -10,8 +10,7 @@ def command ():
     }
 }
 
-def command1 ():
-  return {
+command1 = {
     "action": 2,
     "data": {
         "price": '>=90',
@@ -19,8 +18,7 @@ def command1 ():
     }
 }
 
-def command2 ():
-  return {
+command2 ={
     "action": 2,
     "data": {
         "price": None,
@@ -28,8 +26,7 @@ def command2 ():
     }
 }
 
-def command3 ():
-  return {
+command3 = {
     "action": 2,
     "data": {
         "price": 'AVnfa',
@@ -37,8 +34,7 @@ def command3 ():
     }
 }
 
-def command4 ():
-  return {
+command4 = {
     "action": 2,
     "data": {
         "price": '<9999',
@@ -50,16 +46,16 @@ def test_get_product_list():
     test_data = {
         'code': 200,
         'data': '1. Яблоки. Голден. (1000 руб/кг) 10шт.\n2. Груши (200 руб/кг) 30шт.\n'
-                '1. Лук. Репчатый (80 руб/кг) 100шт.\n2. Морковь (90 руб/кг) 200шт.'}
+                '3. Лук. Репчатый (80 руб/кг) 100шт.\n4. Морковь (90 руб/кг) 200шт.'}
 
-    assert get_product_list(command()) == test_data
+    assert get_product_list(command) == test_data
 
 def test_get_product_list1():
     test_data = {
         'code': 200,
-        'data': '1. Яблоки. Голден. (1000 руб/кг) 10шт.\n2. Груши (200 руб/кг) 30шт.\n2. Морковь (90 руб/кг) 200шт.'
+        'data': '1. Яблоки. Голден. (1000 руб/кг) 10шт.\n2. Груши (200 руб/кг) 30шт.\n4. Морковь (90 руб/кг) 200шт.'
     }
-    assert get_product_list(command1()) == test_data
+    assert get_product_list(command1) == test_data
 
 
 def test_get_product_list2():
@@ -67,15 +63,15 @@ def test_get_product_list2():
         'code': 200,
         'data': '1. Яблоки. Голден. (1000 руб/кг) 10шт.\n2. Груши (200 руб/кг) 30шт.'
     }
-    assert get_product_list(command2()) == test_data
+    assert get_product_list(command2) == test_data
 
 
 def test_get_product_list3():
     test_data = {'code': 500, 'data': []}
 
-    assert get_product_list(command3()) == test_data
+    assert get_product_list(command3) == test_data
 
 
 def test_get_product_list4():
     test_data = {'code': 500, 'data': []}
-    assert get_product_list(command4()) == test_data
+    assert get_product_list(command4) == test_data

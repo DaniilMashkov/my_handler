@@ -1,23 +1,20 @@
 from hanlders.products import get_single_product 
-def test1():
-    return {
+test1 ={
                 "action": 4,
                     "data": {
                               "id": 1
                                   }
                 }
 
-def test2():
-    return {
+test2 = {
                 "action": 4,
                     "data": {
-                              "id": 2
+                              "id": 8
                                   }
                 }
 
 
-def test3():
-    return {
+test3 = {
                  "action": 4,
                      "data": {
                                "id": None
@@ -29,6 +26,6 @@ def test_get_single_product():
         test_data2 = {'code': 404, 'message': "Товара с таким номером не найдено"}
 
 
-        assert get_single_product(test1()) == test_data1
-        assert get_single_product(test2()) == test_data2
-        assert get_single_product(test3()) == test_data2
+        assert get_single_product(test1) == test_data1
+        assert get_single_product(test2) == test_data2
+        assert get_single_product(test3) == test_data2

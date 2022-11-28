@@ -37,17 +37,17 @@ if __name__ == '__main__':
     while True:
         with open('data/command.json') as command_file:
             file_data = command_file.read()
-        # try:
+        try:
             result = main(json.loads(file_data))
 
             print(result)
             break
-        #     f = open('data/command.json', 'r+')
-        #     f.truncate(0)
-        #
-        #     if result == 0:
-        #         break
-        #
-        # except:
-        #     print('Ожидаю команды... ')
-        #     sleep(2)
+            f = open('data/command.json', 'r+')
+            f.truncate(0)
+
+            if result == 0:
+                break
+
+        except:
+            print('Ожидаю команды... ')
+            sleep(2)
